@@ -82,6 +82,40 @@
         #exit-btn:hover {
             background-color: #ff3333;
         }
+        .fullscreen-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: #f8cb00;
+            color: #222;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        .fullscreen-btn:hover {
+            background-color: #ff9900;
+        }
+        /* Eaglercraft-specific styles */
+        .form-container {
+            background-color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container h3 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #f8cb00;
+        }
         .dropdown {
             background-color: #f8cb00;
             color: #222;
@@ -125,55 +159,12 @@
             background-color: #ff9900;
             transform: scale(1.05);
         }
-        .form-container {
-            background-color: #333;
-            padding: 40px;
-            border-radius: 15px;
-            width: 80%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .form-container h3 {
-            margin-bottom: 20px;
-            font-size: 2rem;
-            color: #f8cb00;
-        }
-        .game-container iframe {
-            width: 90%;
-            height: 80%;
-        }
-        .eaglercraftx-button {
-            background-color: #ff5722;
-            color: white;
-            font-size: 1.7rem;
-            padding: 15px 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .eaglercraftx-button:hover {
-            background-color: #ff3e00;
-            transform: scale(1.05);
-        }
         .client-select-container {
             width: 100%;
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        .client-select-container select {
-            font-size: 1.5rem;
-            padding: 10px;
-            background-color: #222;
-            color: #fff;
-            border: 2px solid #f8cb00;
-            border-radius: 12px;
-            width: 100%;
         }
         .client-select-container h3 {
             color: #f8cb00;
@@ -192,11 +183,11 @@
         <button class="game-button" onclick="showEaglercraftOptions()">Eaglercraft</button>
         <button class="game-button" onclick="loadGame('tunnelRush')">Tunnel Rush</button>
         <button class="game-button" onclick="loadGame('spacebarClicker')">Spacebar Clicker</button>
-        <button class="game-button" onclick="loadGame('ovo')">OvO - Mod</button> <!-- Updated link -->
+        <button class="game-button" onclick="loadGame('ovo')">OvO - Mod</button>
         <button class="game-button" onclick="loadGame('cookie-clicker')">Cookie Clicker</button>
     </div>
 
-    <!-- Eaglercraft Dropdown -->
+    <!-- Eaglercraft Menu -->
     <div id="eaglercraft" class="game-container">
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
 
@@ -210,7 +201,6 @@
                 <option value="1.12.2">Eaglercraft 1.12.2</option>
             </select>
 
-            <!-- Client Select Container -->
             <div class="client-select-container" id="client-dropdown-container" style="display: none;">
                 <h3>Select Your Client</h3>
                 <select id="client-dropdown">
@@ -224,13 +214,14 @@
         <iframe id="eaglercraft-iframe" style="display:none;"></iframe>
     </div>
 
+    <!-- Other Game Containers -->
     <div id="slope2" class="game-container">
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
-        <iframe id="slope2-iframe" data-src="https://azgames.io/game/slope/"></iframe>
+        <iframe id="slope2-iframe" data-src="https://slope.global.ssl.fastly.net/slope.embed"></iframe>
     </div>
     <div id="slope3" class="game-container">
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
-        <iframe id="slope3-iframe" data-src="https://game.azgame.io/slope-3/"></iframe>
+        <iframe id="slope3-iframe" data-src="https://slope.global.ssl.fastly.net/slope-3.embed"></iframe>
     </div>
     <div id="tunnelRush" class="game-container">
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
@@ -240,13 +231,15 @@
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
         <iframe id="spacebarClicker-iframe" data-src="https://sciencemathedu.github.io/space/"></iframe>
     </div>
-    <div id="ovo" class="game-container"> <!-- Updated link for Ovo -->
+    <div id="ovo" class="game-container">
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
-        <iframe id="ovo-iframe" data-src="https://alexander-datskov.github.io/ovo/1.4.4/"></iframe> <!-- Updated link -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen('ovo-iframe')">Fullscreen</button>
+        <iframe id="ovo-iframe" data-src="https://alexander-datskov.github.io/ovo/1.4.4/"></iframe>
     </div>
-    <div id="cookie-clicker" class="game-container">
+    <div id="cookie-clicker" class="game-container"> 
         <button id="exit-btn" onclick="askSaveOrClose()">X</button>
         <iframe id="cookie-clicker-iframe" data-src="https://cookiebake.global.ssl.fastly.net/"></iframe>
+    </div>
 
     <script>
         const clients = {
@@ -255,13 +248,16 @@
                 { name: "DragonXLite_4 1.8", url: "https://html.cafe/x976610e8" },
                 { name: "Eaglercraft 1.8 Reborn", url: "https://html.cafe/xfc628f3a" },
                 { name: "Eaglercraft 1.8 X", url: "https://html.cafe/xeb012912" },
-                { name: "Eaglercraft 1.8 Pi Client", url: "https://html.cafe/x6bc1883b" }
+                { name: "Eaglercraft 1.8 Pi Client", url: "https://html.cafe/x6bc1883b" },
+                { name: "Eaglercraft 1.8 Resent client 4.0", url: "https://alexander-datskov.github.io/Resent-Client" },
+                { name: "Eaglercraft 1.8 AstraClient", url: "https://astra-client.global.ssl.fastly.net" }
             ],
             "1.5": [
                 { name: "DragonXLite 1.5", url: "https://html.cafe/x410235a5" },
                 { name: "DragonXLite_4 1.5", url: "https://html.cafe/x917ad8b0" },
                 { name: "Eaglercraft 1.5 Reborn", url: "https://html.cafe/xbe706b9f" },
-                { name: "Eaglercraft 1.5 Pi Client", url: "https://html.cafe/xaf571f75" }
+                { name: "Eaglercraft 1.5 Pi Client", url: "https://html.cafe/xaf571f75" },
+                { name: "Eaglercraft 1.5.2 Codercraft_Early_BETA", url: "https://html.cafe/x107756ff" }
             ]
         };
 
@@ -314,6 +310,19 @@
             if (confirm("Do you want to exit this game?")) {
                 const games = document.querySelectorAll('.game-container');
                 games.forEach(game => game.style.display = 'none');
+            }
+        }
+
+        function toggleFullscreen(iframeId) {
+            const iframe = document.getElementById(iframeId);
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
             }
         }
     </script>
