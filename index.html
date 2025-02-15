@@ -323,6 +323,8 @@
       <button class="game-button" onclick="loadGame('cookie-clicker')">Cookie Clicker</button>
       <button class="game-button" onclick="loadGame('drift-boss')">Drift Boss</button>
       <button class="game-button" onclick="loadGame('retroBowl')">Retro Bowl</button>
+      <button class="game-button" onclick="loadGame('pixel-speedrun')">Pixel Speedrun</button>
+      <button class="game-button" onclick="loadGame('stack')">Stack</button>
     </div>
   </div>
 
@@ -395,7 +397,17 @@
     <button class="fullscreen-btn" onclick="toggleFullscreen('retroBowl-iframe')">⛶</button>
     <iframe id="retroBowl-iframe" data-src="https://alexander-datskov.github.io/retro-bowl/"></iframe>
   </div>
-
+  <div id="pixel-speedrun" class="game-container">
+    <button id="exit-btn" onclick="askSaveOrClose('pixel-speedrun')">X</button>
+    <button class="fullscreen-btn" onclick="toggleFullscreen('pixel-speedrun')">⛶</button>
+    <iframe id="pixel-speedrun-iframe" data-src="https://class-77.global.ssl.fastly.net/Vafor_IT/pixellyballs/"></iframe>
+  </div>
+  <div id="stack" class="game-container">
+    <button id="exit-btn" onclick="askSaveOrClose('stack')">X</button>
+    <button class="fullscreen-btn" onclick="toggleFullscreen('stack')">⛶</button>
+    <iframe id="stack-iframe" data-src="https://alexander-datskov.github.io/Stack-Game-JavaScript/"></iframe>
+  </div>
+  
   <!-- Customization Panel -->
   <div class="customization-panel" id="customization-panel">
     <h3>Customize Menu</h3>
